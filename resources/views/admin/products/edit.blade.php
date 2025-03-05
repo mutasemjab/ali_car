@@ -142,20 +142,7 @@
                     </div>
                 </div>
 
-                <div class="form-group col-md-6">
-                    <label for="card_packages">Card Packages</label>
-                    @foreach($cardPackages as $cardPackage)
-                        <div class="card mb-3">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ $cardPackage->name_ar }}</h5>
-                                <div class="form-group">
-                                    <label for="card_package_prices[{{ $cardPackage->id }}][selling_price]">Selling Price</label>
-                                    <input type="number" name="card_package_prices[{{ $cardPackage->id }}][selling_price]" class="form-control" step="any" value="{{ old('card_package_prices.' . $cardPackage->id . '.selling_price', $data->cardPackages->find($cardPackage->id)?->pivot->selling_price) }}" required>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
+             
 
                 <div class="col-md-6">
                     <div class="form-group">

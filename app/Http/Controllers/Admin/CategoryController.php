@@ -39,7 +39,6 @@ class CategoryController extends Controller
 
             $category->name_en = $request->get('name_en');
             $category->name_ar = $request->get('name_ar');
-            $category->is_game = $request->get('is_game');
 
 
             $parentCategoryID = $request->input('category_id');
@@ -90,7 +89,6 @@ class CategoryController extends Controller
 
             $category->name_en = $request->get('name_en');
             $category->name_ar = $request->get('name_ar');
-            $category->is_game = $request->get('is_game');
             
             $parentCategoryID = $request->input('category_id');
             if ($parentCategoryID) {

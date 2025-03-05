@@ -13,7 +13,7 @@
         <div class="card-body">
 
 
-            <form action="{{ route('admin.customer.store') }}" method="post" enctype='multipart/form-data'>
+            <form action="{{ route('users.store') }}" method="post" enctype='multipart/form-data'>
                 <div class="row">
                     @csrf
 
@@ -28,15 +28,7 @@
                     </div>
 
 
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label> {{ __('messages.Email') }} </label>
-                            <input name="email" id="name" class="form-control" value="{{ old('email') }}">
-                            @error('email')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-                    </div>
+                    
                     <div class="col-md-6">
                         <div class="form-group">
                             <label> {{ __('messages.Password') }} </label>
@@ -56,42 +48,14 @@
                             @enderror
                         </div>
                     </div>
-
-                    <div class="form-group col-md-6">
-                        <label for="cardPackage"> {{ __('messages.cardPackages') }}</label>
-                        <select class="form-control" name="cardPackage" id="cardPackage">
-                            <option value="">Select Card Package</option>
-                            @foreach($cardPackages as $cardPackage)
-                            <option value="{{ $cardPackage->id }}">{{ $cardPackage->name_ar }}</option>
-                            @endforeach
-                        </select>
-                        @error('cardPackage')
-                        <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    
-                    <div class="form-group col-md-6">
-                        <label for="cardPackage"> {{ __('messages.delears') }}</label>
-                        <select class="form-control" name="user" id="user">
-                            <option value="">Select Dealers</option>
-                            @foreach($users as $user)
-                            <option value="{{ $user->id }}">{{ $user->name }}</option>
-                            @endforeach
-                        </select>
-                        @error('user')
-                        <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
             
                     <div class="form-group col-md-6">
-                        <label for="cardPackage"> {{ __('messages.sectionUsers') }}</label>
-                        <select class="form-control" name="sectionUser" id="user">
-                            <option value="">Select sectionUser</option>
-                            @foreach($sectionUsers as $sectionUser)
-                            <option value="{{ $sectionUser->id }}">{{ $sectionUser->name_ar }}</option>
-                            @endforeach
+                        <label for="cardPackage"> {{ __('messages.user_type') }}</label>
+                        <select class="form-control" name="user_type" id="user">
+                            <option value="1">تأمين</option>
+                            <option value="2">محل عادي</option>
                         </select>
-                        @error('sectionUser')
+                        @error('user_type')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
@@ -120,14 +84,14 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label> {{ __('messages.Activate') }}</label>
-                            <select name="active" id="active" class="form-control">
+                            <select name="activate" id="activate" class="form-control">
                                 <option value=""> select</option>
-                                <option @if (old('active') == 1 || old('active') == '') selected="selected" @endif value="1"> active
+                                <option @if (old('activate') == 1 || old('activate') == '') selected="selected" @endif value="1"> activate
                                 </option>
-                                <option @if (old('active') == 2 and old('active') != '') selected="selected" @endif value="2">
-                                    disactive</option>
+                                <option @if (old('activate') == 2 and old('activate') != '') selected="selected" @endif value="2">
+                                    disactivate</option>
                             </select>
-                            @error('active')
+                            @error('activate')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
@@ -137,7 +101,7 @@
                     <div class="col-md-12">
                         <div class="form-group text-center">
                             <button id="do_add_item_cardd" type="submit" class="btn btn-primary btn-sm"> {{ __('messages.Submit') }}</button>
-                            <a href="{{ route('admin.customer.index') }}" class="btn btn-sm btn-danger">{{ __('messages.Cancel') }}</a>
+                            <a href="{{ route('users.index') }}" class="btn btn-sm btn-danger">{{ __('messages.Cancel') }}</a>
 
                         </div>
                     </div>

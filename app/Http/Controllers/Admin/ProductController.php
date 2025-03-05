@@ -57,8 +57,7 @@ class ProductController extends Controller
         if (auth()->user()->can('product-add')) {
             $categories = Category::get();
             $units = Unit::get();
-            $cardPackages = CardPackage::all();
-            return view('admin.products.create', compact('categories', 'units','cardPackages'));
+            return view('admin.products.create', compact('categories', 'units'));
         } else {
             return redirect()->back()
                 ->with('error', "Access Denied");
@@ -89,10 +88,6 @@ class ProductController extends Controller
             $product->category_id = $request->input('category');
             $product->unit_id = $request->input('unit');
             if($product->save()){
-               // Attach the product to the card packages with the selling price
-                foreach ($request->card_package_prices as $cardPackageId => $data) {
-                    $product->cardPackages()->attach($cardPackageId, ['selling_price' => $data['selling_price']]);
-                }
             return redirect()->route('products.index')->with(['success' => 'Product created']);
             }
         } catch (\Exception $ex) {
@@ -109,8 +104,7 @@ class ProductController extends Controller
             $data = Product::findOrFail($id); // Retrieve the category by ID
             $categories = Category::all();
             $units = Unit::all();
-            $cardPackages = CardPackage::all();
-            return view('admin.products.edit', ['cardPackages'=>$cardPackages,'units' => $units, 'categories' => $categories, 'data' => $data]);
+            return view('admin.products.edit', ['units' => $units, 'categories' => $categories, 'data' => $data]);
         } else {
             return redirect()->back()
                 ->with('error', "Access Denied");
@@ -143,13 +137,7 @@ class ProductController extends Controller
             $product->unit_id = $request->input('unit');
             // Save the product
            if( $product->save()){
-              // Sync the product with the card packages and update the selling price
-              $cardPackagePrices = [];
-              foreach ($request->card_package_prices as $cardPackageId => $data) {
-                  $cardPackagePrices[$cardPackageId] = ['selling_price' => $data['selling_price']];
-              }
-              $product->cardPackages()->sync($cardPackagePrices);
-
+         
             return redirect()->route('products.index')->with(['success' => 'Product updated']);
            }
         } catch (\Exception $ex) {

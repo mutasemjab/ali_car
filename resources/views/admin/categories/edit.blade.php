@@ -44,19 +44,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label> {{ __('messages.is_game') }}</label>
-                        <select name="is_game" id="is_game" class="form-control">
-                            <option value="">Select</option>
-                            <option value="1" {{ $data->is_game == 1 ? 'selected' : '' }}>Yes</option>
-                            <option value="2" {{ $data->is_game == 2 ? 'selected' : '' }}>No</option>
-                        </select>
-                        @error('is_game')
-                        <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-                </div>
+    
 
                 <div class="col-md-6">
                     <div class="form-group">

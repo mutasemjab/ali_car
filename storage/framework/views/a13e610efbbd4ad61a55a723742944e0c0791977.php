@@ -1,9 +1,8 @@
-@extends('layouts.admin')
-@section('title')
+<?php $__env->startSection('title'); ?>
 الرئيسية
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('css')
+<?php $__env->startSection('css'); ?>
 <style>
 
 
@@ -37,19 +36,19 @@
 }
 
 </style>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('contentheaderlink')
-<a href="{{ route('admin.dashboard') }}"> الرئيسية </a>
-@endsection
+<?php $__env->startSection('contentheaderlink'); ?>
+<a href="<?php echo e(route('admin.dashboard')); ?>"> الرئيسية </a>
+<?php $__env->stopSection(); ?>
 
-@section('contentheaderactive')
+<?php $__env->startSection('contentheaderactive'); ?>
 عرض
-@endsection
+<?php $__env->stopSection(); ?>
 
 
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="dashboard">
     <div class="card">
         <h2>Customers Current Balance</h2>
@@ -74,7 +73,9 @@
 </div>
 
 
-@endsection
+<?php $__env->stopSection(); ?>
 
 
 
+
+<?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\ali_car\resources\views/admin/dashboard.blade.php ENDPATH**/ ?>

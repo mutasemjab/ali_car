@@ -38,17 +38,6 @@
                 </div>
 
 
-                <div class="form-group col-md-6">
-                    <label for="is_game"> {{ __('messages.is_game') }}</label>
-                    <select name="is_game" id="is_game" class="form-control">
-                        <option value="">Select</option>
-                        <option @if(old('is_game')==1 || old('is_game')=="") selected="selected" @endif value="1">Yes</option>
-                        <option @if(old('is_game')==2 and old('is_game')!="") selected="selected" @endif value="2">No</option>
-                    </select>
-                    @error('is_game')
-                    <span class="text-danger">{{ $message }}</span>
-                    @enderror
-                </div>
 
                 <div class="form-group col-md-6">
                     <label for="category_id">Parent Category</label>

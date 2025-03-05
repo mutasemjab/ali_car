@@ -3,32 +3,15 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\UnitController;
-use App\Http\Controllers\Admin\OrderController;
-use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\ProductController;
-use App\Http\Controllers\Admin\OfferController;
-use App\Http\Controllers\Admin\WalletController;
-use App\Http\Controllers\Admin\TransferController;
-use App\Http\Controllers\Admin\DealerController;
-use App\Http\Controllers\Admin\CardPackageController;
-use App\Http\Controllers\Admin\NoteVoucherTypeController;
-use App\Http\Controllers\Admin\NoteVoucherController;
 use App\Http\Controllers\Admin\PageController;
-use App\Http\Controllers\Admin\RequestBalanceController;
+use App\Http\Controllers\Admin\PurchaseOrderController;
 use App\Http\Controllers\Admin\WarehouseController;
-use App\Http\Controllers\Admin\CategorySubscriptionController;
-use App\Http\Controllers\Admin\PayInvoiceController;
-use App\Http\Controllers\Admin\TransferBankController;
 use App\Http\Controllers\Reports\InventoryReportController;
 use App\Http\Controllers\Reports\OrderReportController;
-use App\Http\Controllers\Admin\BannerController;
-use App\Http\Controllers\Admin\QuestionController;
-use App\Http\Controllers\Admin\ReceivableController;
-use App\Http\Controllers\Admin\SectionUserController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Reports\ProductReportController;
 use App\Http\Controllers\Reports\TaxReportController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -81,16 +64,6 @@ Route::get('/permissions/{guard_name}', function($guard_name){
 
 
 
-Route::prefix('pages')->group(function () {
-    Route::get('/', [PageController::class, 'index'])->name('pages.index');
-    Route::get('/create', [PageController::class, 'create'])->name('pages.create');
-    Route::post('/store', [PageController::class, 'store'])->name('pages.store');
-    Route::get('/edit/{id}', [PageController::class, 'edit'])->name('pages.edit');
-    Route::put('/update/{id}', [PageController::class, 'update'])->name('pages.update');
-    Route::delete('/delete/{id}', [PageController::class, 'destroy'])->name('pages.destroy');
-});
-
-
 //Reports
 Route::get('/inventory_report', [InventoryReportController::class, 'index'])->name('inventory_report');
 Route::get('/order_report', [OrderReportController::class, 'index'])->name('order_report');
@@ -101,10 +74,12 @@ Route::get('/tax_report', [TaxReportController::class, 'index'])->name('tax_repo
 
 // Resource Route
 
+Route::resource('users', UserController::class);
 Route::resource('warehouses', WarehouseController::class);
 Route::resource('products', ProductController::class);
 Route::resource('categories', CategoryController::class);
 Route::resource('units', UnitController::class);
+Route::resource('purchaseOrders', PurchaseOrderController::class);
 
 
 
