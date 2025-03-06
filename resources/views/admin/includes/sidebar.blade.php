@@ -40,7 +40,7 @@
                 </li>
                 @endif
 
-             
+
 
            @if (
                 $user->can('category-table') ||
@@ -82,7 +82,7 @@
                 @endif
 
 
-             
+
 
                 @if (
                     $user->can('warehouse-table') ||
@@ -110,7 +110,33 @@
                     </li>
                 @endif
 
-              
+             @if (
+                    $user->can('invoice-table') ||
+                        $user->can('invoice-add') ||
+                        $user->can('invoice-edit') ||
+                        $user->can('invoice-delete'))
+                    <li class="nav-item">
+                        <a href="{{ route('invoices.index') }}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p> {{ __('messages.invoices') }} </p>
+                        </a>
+                    </li>
+                @endif
+
+           @if (
+                    $user->can('invoice-table') ||
+                        $user->can('invoice-add') ||
+                        $user->can('invoice-edit') ||
+                        $user->can('invoice-delete'))
+                    <li class="nav-item">
+                        <a href="{{ route('check.car') }}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p> {{ __('messages.Check car') }} </p>
+                        </a>
+                    </li>
+                @endif
+
+
 
 
                 <li class="nav-item has-treeview">
@@ -128,12 +154,12 @@
                                 <p> {{ __('messages.inventory_report_with_costs') }} </p>
                             </a>
                         </li>
-                        
+
 
                     </ul>
                 </li>
 
-               
+
 
 
 

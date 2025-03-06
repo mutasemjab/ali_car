@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api\v1\User;
 
+use App\Http\Controllers\Admin\VehicleController;
+use App\Http\Controllers\Admin\VehicleInfoController;
 use App\Http\Controllers\Api\v1\User\ReceivableController;
 use App\Http\Controllers\Api\v1\User\SectionUserController;
 use Illuminate\Http\Request;
@@ -36,22 +38,17 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::post('/vehicle/info', [VehicleController::class, 'checkVehicleInfo'])->name('api.vehicle.check');
+
+
+
 //Route unAuth
 Route::group(['prefix' => 'v1/user'], function () {
-
-    //---------------- Auth --------------------//
-    Route::get('/sectionOfUser', [SectionUserController::class, 'index']);
-    Route::post('/register', [AuthController::class, 'register']);
-    Route::post('/login', [AuthController::class, 'login']);
-
- 
-
 
 
     // Auth Route
     Route::group(['middleware' => ['auth:user-api']], function () {
 
-        Route::post('/update_profile', [AuthController::class, 'updateProfile']);
 
     });
 });

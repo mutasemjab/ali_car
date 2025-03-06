@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\InvoiceController;
 use App\Http\Controllers\Admin\UnitController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\PageController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\Admin\WarehouseController;
 use App\Http\Controllers\Reports\InventoryReportController;
 use App\Http\Controllers\Reports\OrderReportController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\VehicleController;
 use App\Http\Controllers\Reports\ProductReportController;
 use App\Http\Controllers\Reports\TaxReportController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -30,8 +32,10 @@ use Spatie\Permission\Models\Permission;
 define('PAGINATION_COUNT',11);
 Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath']], function () {
 
-    //Search Product in Jquery
+//Search Product in Jquery
 Route::get('/products/search', [ProductController::class, 'search'])->name('products.search');
+
+
 
 
 
@@ -62,6 +66,11 @@ Route::get('/permissions/{guard_name}', function($guard_name){
 });
 
 
+Route::get('/purchase-orders/{purchaseOrder}/create-invoice', [InvoiceController::class, 'createFromPurchaseOrder'])->name('invoices.createFromPO');
+
+
+// مسار لعرض صفحة فحص السيارة
+Route::get('/check-car', [VehicleController::class, 'showCheckCarPage'])->name('check.car');
 
 
 //Reports
@@ -80,6 +89,7 @@ Route::resource('products', ProductController::class);
 Route::resource('categories', CategoryController::class);
 Route::resource('units', UnitController::class);
 Route::resource('purchaseOrders', PurchaseOrderController::class);
+Route::resource('invoices', InvoiceController::class);
 
 
 

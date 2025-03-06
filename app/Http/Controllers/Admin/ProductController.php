@@ -17,26 +17,8 @@ class ProductController extends Controller
 
     public function search(Request $request)
     {
-        $query = $request->input('term');
-        $products = Product::where('name_ar', 'LIKE', "%{$query}%")
-            ->orWhere('number', 'LIKE', "%{$query}%")
-            ->with([
-                'unit:id,name_ar'
-            ])
-            ->get()
-            ->map(function ($product) {
-                return [
-                    'id' => $product->id,
-                    'name' => $product->name_ar,
-                    'unit' => [
-                        'id' => $product->unit->id,
-                        'name' => $product->unit->name_ar,
-                    ],
-                    'tax' => $product->tax,
-                    'selling_price' => $product->selling_price,
-                ];
-            });
-
+        $query = $request->input('query');
+        $products = Product::where('name_ar', 'LIKE', "%{$query}%")->get();
         return response()->json($products);
     }
 
@@ -137,7 +119,7 @@ class ProductController extends Controller
             $product->unit_id = $request->input('unit');
             // Save the product
            if( $product->save()){
-         
+
             return redirect()->route('products.index')->with(['success' => 'Product updated']);
            }
         } catch (\Exception $ex) {

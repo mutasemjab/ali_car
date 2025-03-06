@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('title')
-{{ __('messages.purchaseOrders') }}
+{{ __('messages.invoices') }}
 @endsection
 
 
@@ -11,9 +11,9 @@
 
 <div class="card">
     <div class="card-header">
-        <h3 class="card-title card_title_center"> {{ __('messages.purchaseOrders') }} </h3>
-        <a href="{{ route('purchaseOrders.create') }}" class="btn btn-sm btn-success"> {{ __('messages.New') }} {{
-            __('messages.purchaseOrders') }}</a>
+        <h3 class="card-title card_title_center"> {{ __('messages.invoices') }} </h3>
+        <a href="{{ route('invoices.create') }}" class="btn btn-sm btn-success"> {{ __('messages.New') }} {{
+            __('messages.invoices') }}</a>
 
     </div>
     <!-- /.card-header -->
@@ -32,7 +32,7 @@
             @if (@isset($data) && !@empty($data) && count($data) > 0)
             <table id="example2" class="table table-bordered table-hover">
                 <thead class="custom_thead">
-                    <th>{{ __('messages.date_of_receive') }}</th>
+                    <th>{{ __('messages.invoice_date') }}</th>
 
 
                     <th></th>
@@ -42,17 +42,17 @@
                     <tr>
 
 
-                        <td>{{ $info->date_of_receive }}</td>
+                        <td>{{ $info->invoice_date }}</td>
 
                         <td>
                             @can('category-edit')
-                            <a href="{{ route('purchaseOrders.edit', $info->id) }}" class="btn btn-sm  btn-primary">{{
+                            <a href="{{ route('invoices.edit', $info->id) }}" class="btn btn-sm  btn-primary">{{
                                 __('messages.Edit') }}</a>
-                            <a href="{{ route('purchaseOrders.show', $info->id) }}" class="btn btn-sm  btn-primary">{{
+                            <a href="{{ route('invoices.show', $info->id) }}" class="btn btn-sm  btn-primary">{{
                                 __('messages.Show') }}</a>
                             @endcan
                             @can('category-delete')
-                            <form action="{{ route('purchaseOrders.destroy', $info->id) }}" method="POST">
+                            <form action="{{ route('invoices.destroy', $info->id) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-sm btn-danger">{{ __('messages.Delete') }}</button>

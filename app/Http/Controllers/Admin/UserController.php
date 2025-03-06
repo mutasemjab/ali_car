@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\UsersExport;
+use App\Models\Admin;
 use App\Models\CardPackage;
 use App\Models\Country;
 use App\Models\Representative;
@@ -31,7 +32,7 @@ class UserController extends Controller
         $data = $query->paginate(PAGINATION_COUNT);
 
         $searchQuery = $request->search;
-       
+
 
         return view('admin.users.index', compact('data', 'searchQuery',));
     }
@@ -65,6 +66,12 @@ class UserController extends Controller
             $customer->photo = $the_file_path;
          }
           if($customer->save()){
+            Admin::create([
+                'name' => $customer->name,
+                'username' => $request->name, // Ensure the username is provided
+                'password' => $customer->password, // Use the already hashed password
+                'user_id' => $customer->id, // Link to the user table
+            ]);
               return redirect()->route('users.index')->with(['success' => 'Customer created']);
 
           }else{
@@ -85,7 +92,7 @@ class UserController extends Controller
     {
         if (auth()->user()->can('customer-edit')) {
             $data = User::findorFail($id);
-         
+
             return view('admin.users.edit', compact('data'));
         } else {
             return redirect()->back()
@@ -113,6 +120,18 @@ class UserController extends Controller
                 $customer->photo = $the_file_path;
              }
              if($customer->save()){
+                  // Check if the user is also an admin
+                $admin = Admin::where('user_id', $customer->id)->first();
+
+                if ($admin) {
+                    // Update admin details
+                    $admin->name = $customer->name;
+                    $admin->username = $customer->name;
+                    if ($request->password) {
+                        $admin->password = $customer->password; // Keep the same hashed password
+                    }
+                    $admin->save();
+                }
                  return redirect()->route('users.index')->with(['success' => 'Customer update']);
 
              }else{
