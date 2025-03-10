@@ -1,89 +1,98 @@
 @extends("layouts.admin")
 
-@section('css')
+@section('title')
+    {{ __('messages.Role') }}
 @endsection
 
 @section('content')
-    <!-- Start Content-->
-    <div class="container-fluid">
-
-        <div class="row">
+    <!-- Header -->
+    <div class="card-header py-3">
+        <div class="row g-4">
             <div class="col-12">
-                <div class="page-title-box">
-                    <div class="page-title-right">
-                        <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">{{ env('APP_NAME') }}</a></li>
-                            <li class="breadcrumb-item active">Role</li>
-                        </ol>
-                    </div>
-                    <h4 class="page-title">Role</h4>
+                <div class="d-flex flex-wrap gap-4">
+                    <a href="{{ route('admin.role.create') }}" class="btn btn-primary">
+                        <i class="fa fa-plus me-2"></i>{{ __('messages.New Role') }}
+                    </a>
                 </div>
             </div>
         </div>
+    </div>
 
-
-        <div class="row">
-            <div class="col">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row mb-2">
-                                <div class="col-md-12">
-
-                                </div>
-                            <div class="col-sm-4">
-
-                                {{ $data->links() }}
-
-                            </div>
-                            <div class="col-sm-8">
-                                <div class="text-sm-right">
-                                    <a type="button" href="{{ route("admin.role.create") }}"
-                                        class="btn btn-primary waves-effect waves-light mb-2 text-white">New Role
-                                    </a>
-                                </div>
-                            </div><!-- end col-->
-                        </div>
-
-                        <div class="table-responsive">
-                            <table class="table table-centered table-nowrap table-hover mb-0">
-                                <thead class="thead-light">
-
-                                    <tr>
-                                         <th>Name</th>
-                                        <th>Permissions</th>
-                                         <th style="width: 82px;">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($data as $value)
-                                        <tr>
-                                            <td><span class="font-weight-bold">{{ $value->name }}</span></td>
-                                            <td>
-                                                @foreach ($value->permissions as $permission)
-                                                    {{ $permission->name }}<br>
-                                                @endforeach
-                                            </td>
-                                             <td>
-                                                <a class="btn btn-sm btn-outline-info"
-                                                    href="{{ route("admin.role.edit",  $value->id) }}"><i
-                                                        class="mdi mdi-pencil-box"></i> Edit</a>
-                                              <a class="btn btn-sm btn-outline-danger" href="javascript:void(0)"
-                                                   @if (env('Environment') == 'sendbox') onclick="myFunction()" @else onclick="Delete('{{ $value->id }}','{{ route('admin.role.delete') }}')" @endif><i
-                                                        class="mdi mdi-trash-can"></i>Delete</a>
-
-                                            </td>
-                                        </tr>
-                                    @endforeach
-
-                                </tbody>
-                            </table>
-                        </div>
-
-                    </div> <!-- end card-body-->
-                </div> <!-- end card-->
+    <!-- Table Section -->
+    <div class="card">
+        <div class="card-body">
+            @can('role-table')
+            <div class="table-responsive">
+                @if(count($data) > 0)
+                    <table class="table table-hover">
+                        <thead>
+                            <tr class="bg-primary text-white">
+                                <th class="px-4 py-3">{{ __('messages.Name') }}</th>
+                                <th class="px-4 py-3">{{ __('messages.Permission') }}</th>
+                                <th class="px-4 py-3 text-center">{{ __('messages.Action') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($data as $value)
+                                <tr class="border-bottom">
+                                    <td class="px-4 py-3 font-weight-medium">{{ $value->name }}</td>
+                                    <td class="px-4 py-3">
+                                        @foreach ($value->permissions as $permission)
+                                            {{ $permission->name }}<br>
+                                        @endforeach
+                                    </td>
+                                    <td class="px-4 py-3" style="text-align: center;">
+                                        <div class="btn-group">
+                                            @can('role-edit')
+                                                <a href="{{ route('admin.role.edit', $value->id) }}"
+                                                   class="btn btn-outline-primary btn-sm">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                                    </svg>
+                                                </a>
+                                            @endcan
+                                            @can('role-delete')
+                                                <form action="{{ route('admin.role.destroy', $value->id) }}" method="POST" style="display: inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-outline-danger btn-sm"
+                                                            onclick="return confirm('{{ __('messages.Confirm_Delete') }}')">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                            <path d="M3 6h18"></path>
+                                                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                                                            <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                                        </svg>
+                                                    </button>
+                                                </form>
+                                            @endcan
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                @else
+                    <div class="alert alert-info" style="
+                        background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
+                        border: none;
+                        border-radius: 15px;
+                        padding: 1.5rem;
+                        color: #4a5568;
+                        display: flex;
+                        align-items: center;
+                        gap: 0.75rem;
+                        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);">
+                        <i class="fas fa-info-circle" style="color: #667eea; font-size: 1.25rem;"></i>
+                        {{ __('messages.No_data') }}
+                    </div>
+                @endif
             </div>
+            @endcan
+
+            {{ $data->links() }}
         </div>
-    </div> <!-- container -->
+    </div>
 @endsection
 
 @section('script')

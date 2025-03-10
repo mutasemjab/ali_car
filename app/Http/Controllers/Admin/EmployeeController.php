@@ -16,7 +16,7 @@ class EmployeeController extends Controller
 
     public function index(Request $request)
     {
-        $data = Admin::where('is_super', 0);
+        $data = Admin::with('roles')->where('is_super', 0);
         if ($request->search != '' ||  $request->search) {
             $data->where(function ($query) use ($request) {
                 $query->where('admins.name', 'LIKE', "%$request->search%")
@@ -55,7 +55,6 @@ class EmployeeController extends Controller
         if (auth()->user()->can('employee-add')) {
             $this->validate($request, [
                 'name' => 'required',
-                'email' => 'required|unique:admins,email',
                 'password' => 'required',
                 'roles' => 'required'
             ]);
@@ -66,7 +65,7 @@ class EmployeeController extends Controller
 
                 $admin = new Admin([
                     'name' => $request->name,
-                    'email' => $request->email,
+                    'email' => $request->email ?? null,
                     'username' => $request->username,
                     'password' => Hash::make($request->password),
 
@@ -153,7 +152,6 @@ class EmployeeController extends Controller
         if (auth()->user()->can('employee-edit')) {
             $this->validate($request, [
                 'name' => 'required',
-                'email' => 'required|unique:admins,email,' . $id,
                 'roles' => 'required'
             ]);
 
@@ -162,7 +160,6 @@ class EmployeeController extends Controller
                 $admin = Admin::find($id);
 
                 $admin->name = $request->name;
-                $admin->email = $request->email;
                 $admin->username = $request->username;
                 if ($request->password) {
                     $admin->password = Hash::make($request->password);

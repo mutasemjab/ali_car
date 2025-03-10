@@ -12,14 +12,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box">
-                    <div class="page-title-right">
-                        <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a
-                                    href="{{ route('admin.employee.index') }}">Employee</a></li>
-                            <li class="breadcrumb-item active">Create</li>
-                        </ol>
-                    </div>
-                    <h4 class="page-title">Create Employee</h4>
+                    <h4 class="page-title">{{ __('messages.Create Employee') }}</h4>
                 </div>
             </div>
         </div>
@@ -31,7 +24,7 @@
                         <form action="{{ route('admin.employee.store') }}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
-                                <label for="name">Name <span class="text-danger">*</span></label>
+                                <label for="name">{{ __('messages.Name') }} <span class="text-danger">*</span></label>
                                 <div class="input-group">
                                     <input type="text"
                                         class="form-control @if ($errors->has('name')) is-invalid @endif"
@@ -44,7 +37,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="username">username<span class="text-danger">*</span></label>
+                                <label for="username">{{ __('messages.User name') }} <span class="text-danger">*</span></label>
                                 <div class="input-group">
                                     <input type="username"
                                         class="form-control @if ($errors->has('username')) is-invalid @endif"
@@ -57,7 +50,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="password">Password<span class="text-danger">*</span></label>
+                                <label for="password">{{ __('messages.Password') }} <span class="text-danger">*</span></label>
                                 <div class="input-group">
                                     <input type="password"
                                         class="form-control @if ($errors->has('password')) is-invalid @endif"
@@ -87,9 +80,9 @@
 
                             <div class="text-right">
                                 <button type="submit"
-                                    class="btn btn-success waves-effect waves-light">Save</button>
+                                    class="btn btn-success waves-effect waves-light">{{ __('messages.Save') }}</button>
                                 <a type="button" href="{{ route('admin.employee.index') }}"
-                                    class="btn btn-danger waves-effect waves-light m-l-10">Cancel
+                                    class="btn btn-danger waves-effect waves-light m-l-10">{{ __('messages.Cancel') }}
                                 </a>
                             </div>
 

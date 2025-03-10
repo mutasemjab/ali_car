@@ -14,6 +14,7 @@ use App\Models\Country;
 use App\Models\Representative;
 use App\Models\SectionUser;
 use App\Models\Wallet;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -66,12 +67,26 @@ class UserController extends Controller
             $customer->photo = $the_file_path;
          }
           if($customer->save()){
-            Admin::create([
-                'name' => $customer->name,
-                'username' => $request->name, // Ensure the username is provided
-                'password' => $customer->password, // Use the already hashed password
-                'user_id' => $customer->id, // Link to the user table
+
+         // Find the "customer" role
+         $customerRole = \Spatie\Permission\Models\Role::where('name', 'customer')->first();
+
+         if ($customerRole) {
+             // Manually assign the role_id to the admins table
+            $admin = Admin::create([
+                 'name' => $customer->name,
+                 'username' => $request->name,
+                 'password' => $customer->password,
+                 'user_id' => $customer->id,
+             ]);
+
+             DB::table('model_has_roles')->insert([
+                'role_id' => $customerRole->id,
+                'model_type' => 'App\Models\admin',
+                'model_id' => $admin->id
             ]);
+
+            }
               return redirect()->route('users.index')->with(['success' => 'Customer created']);
 
           }else{

@@ -71,7 +71,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="image">{{ __('admin.roles') }} :</label>
+                                <label for="image">{{ __('messages.Roles') }} :</label>
                                 @foreach ($roles as $role)
                                     <br>
                                     <input {{ in_array($role->id, old('roles') ? old('roles') : []) ? 'checked' : '' }}
